@@ -1,15 +1,25 @@
 import { initializeApp } from "firebase/app";
 import { initializeAuth, getReactNativePersistence } from "firebase/auth/react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+    API_KEY,
+    AUTH_DOMAIN,
+    PROJECT_ID,
+    STORAGE_BUCKET,
+    MESSAGING_SENDER_ID,
+    APP_ID,
+    MEASUREMENT_ID
+} from "@env";
+
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBCKZaWaHHf-3nOpB95l8R44Uyf9aoYoqQ",
-    authDomain: "alura-esporte-cd17c.firebaseapp.com",
-    projectId: "alura-esporte-cd17c",
-    storageBucket: "alura-esporte-cd17c.appspot.com",
-    messagingSenderId: "581961871452",
-    appId: "1:581961871452:web:74307252c92252f6863699",
-    measurementId: "G-MMKS6XTZTL"
+    apiKey: API_KEY,
+    authDomain: AUTH_DOMAIN,
+    projectId: PROJECT_ID,
+    storageBucket: STORAGE_BUCKET,
+    messagingSenderId: MESSAGING_SENDER_ID,
+    appId: APP_ID,
+    measurementId: MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
