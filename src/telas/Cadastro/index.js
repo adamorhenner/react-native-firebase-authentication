@@ -14,23 +14,12 @@ export default function Cadastro({ navigation }) {
   const [senha, setSenha] = useState('');
   const [confirmaSenha, setConfirmaSenha] = useState('');
 
-  useEffect(() => {
-      createUserWithEmailAndPassword(auth, "teste2@email.com", "123456")
-      .then((dadosDoUsuario) => {
-          console.log(dadosDoUsuario)
-
-      })
-      .catch((error) => {
-          console.log(error)
-      });
-  }, [])
-
-  async function realizarCadastro(){
-    await cadastrar(email, senha, confirmaSenha);
-    setEmail('')
-    setSenha('')
-    setConfirmaSenha('')
-  }
+  async function realizarCadastro(){ 
+    await cadastrar(email, senha, confirmaSenha); 
+    setEmail('') 
+    setSenha('') 
+    setConfirmaSenha('') 
+  } 
 
   return (
     <View style={estilos.container}>
@@ -53,7 +42,7 @@ export default function Cadastro({ navigation }) {
         secureTextEntry
       />
       
-      <Botao onPress={() => realizarCadastro()}>CADASTRAR</Botao>
+      <Botao onPress={() => realizarCadastro()}>CADASTRAR</Botao>  
     </View>
   );
 }
