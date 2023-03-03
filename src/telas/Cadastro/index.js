@@ -6,6 +6,7 @@ import estilos from './estilos';
 import { cadastrar } from '../../servicos/requisicoesFirebase';
 import { auth } from '../../config/firebase';
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Alerta } from '../../componentes/Alerta';
 
 
 
@@ -31,17 +32,16 @@ export default function Cadastro({ navigation }) {
       setStatusError('confirmaSenha');
     } else {
       const resultado = await cadastrar(email, senha); 
+      setStatusError('firebase')
       if ( resultado == 'sucesso') {
-        Alert.alert('Usuário cadastrado com sucesso!');
+        setMensagemError('Usuário criado com sucesso!')
         setEmail('') 
         setSenha('') 
         setConfirmaSenha('')
 
       } else {
-        Alert.alert(resultado);
+        setMensagemError(resultado)
       }
-      setStatusError('')
-      setMensagemError('')
     }
 
   } 
@@ -73,6 +73,13 @@ export default function Cadastro({ navigation }) {
         messageError={mensagemError}
       />
       
+      <Alerta
+        mensagem={mensagemError}
+        error={statusError == 'firebase'}
+        setError={setStatusError}
+      />
+
+
       <Botao onPress={() => realizarCadastro()}>CADASTRAR</Botao>  
     </View>
   );
