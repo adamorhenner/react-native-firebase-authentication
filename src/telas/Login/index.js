@@ -14,7 +14,7 @@ import { entradas } from "./entradas";
 export default function Login({ navigation }) {
   const [dados, setDados] = useState({
     email: "",
-    senha: "",c
+    senha: "",
   });
 
   const [statusError, setStatusError] = useState("");
@@ -33,22 +33,29 @@ export default function Login({ navigation }) {
     return () => estadoUsuario();
   }, []);
 
-  async function realizarLogin() {
-    if (dados.email == "") {
-      setMensagemError("O E-mail é obrigatorio!");
-      setStatusError("email");
-    } else if (dados.senha == "") {
-      setMensagemError("A Senha é obrigatoria!");
-      setStatusError("senha");
-    } else {
-      const resultado = await logar(dados.email, dados.senha);
-      if (resultado == "error") {
-        setStatusError("firebase");
-        setMensagemError("E-mail ou senha não conferem");
-      } else {
-        navigation.replace("Principal");
+  function verificaSeTemEntradaVazia(){
+    for(const [variavel, valor] of Object.entries(dados)) {
+      if(valor == '') {
+        setDados({
+          ...dados,
+          [variavel]: null
+        })
       }
+      return true
     }
+    return false
+  }
+
+  async function realizarLogin() {
+    if(verificaSeTemEntradaVazia()) return
+
+    const resultado = await logar(dados.email, dados.senha)
+    if(resultado == 'error'){
+        setStatusError(true)
+        setMensagemError('E-mail ou senha não conferem')
+        return
+    }
+    navigation.replace('Principal')
   }
 
   if (carregando) {
