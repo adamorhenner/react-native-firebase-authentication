@@ -17,7 +17,7 @@ export default function Principal({ navigation }) {
 
   useEffect(() => {
     async function criarProduto(){
-      await addDoc(collection(db, "produt"),{
+      await addDoc(collection(db, "produtos"),{
         nome: "Tenis",
         preco: 890.90
       });
