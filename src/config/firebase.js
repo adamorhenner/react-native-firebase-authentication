@@ -10,6 +10,8 @@ import {
     APP_ID,
     MEASUREMENT_ID
 } from "@env";
+import { getFirestore } from "firebase/firestore"; 
+
 
 
 const firebaseConfig = {
@@ -28,4 +30,6 @@ const auth = initializeAuth(app, {
     persistence: getReactNativePersistence(AsyncStorage)
 })
 
-export { auth };
+const db = getFirestore(app); 
+
+export { auth, db };  

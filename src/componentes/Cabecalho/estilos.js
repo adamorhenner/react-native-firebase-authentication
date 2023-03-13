@@ -11,7 +11,7 @@ export default StyleSheet.create({
   },
   texto: {
     fontSize: 20,
-    fontFamily: "Roboto",
+    fontFamily: "Arial",
     fontWeight: "500",
     color: "#fff",
   },
