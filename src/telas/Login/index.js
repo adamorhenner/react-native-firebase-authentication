@@ -1,56 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { View, Image } from "react-native";
-import Botao from "../../componentes/Botao";
-import { EntradaTexto } from "../../componentes/EntradaTexto";
-import { logar } from "../../servicos/requisicoesFirebase";
-import estilos from "./estilos";
-import { Alerta } from "../../componentes/Alerta";
-import { auth } from "../../config/firebase";
-import animacaoCarregando from "../../../assets/animacaoCarregando.gif";
-import { alteraDados } from "../../utils/comum";
-import { entradas } from "./entradas";
+import React, { useEffect, useState } from 'react';
+import { View, Image } from 'react-native';
+import Botao from '../../componentes/Botao';
+import { EntradaTexto } from '../../componentes/EntradaTexto';
+import { logar } from '../../servicos/requisicoesFirebase';
+import estilos from './estilos';
+import { Alerta } from '../../componentes/Alerta';
+import { auth } from '../../config/firebase';
+import animacaoCarregando from '../../../assets/animacaoCarregando.gif';
+import { alteraDados, verificaSeTemEntradaVazia } from '../../utils/comum';
+import { entradas } from './entradas';
 
 
 export default function Login({ navigation }) {
   const [dados, setDados] = useState({
-    email: "",
-    senha: "",
+    email: '',
+    senha: '',
   });
 
-  const [statusError, setStatusError] = useState("");
-  const [mensagemError, setMensagemError] = useState("");
+  const [statusError, setStatusError] = useState('');
+  const [mensagemError, setMensagemError] = useState('');
   const [carregando, setCarregando] = useState(true);
 
 
 
   useEffect(() => {
-    const estadoUsuario = auth.onAuthStateChanged((usuario) => {
-      if (usuario) {
-        navigation.replace("Principal");
+    const estadoUsuario = auth.onAuthStateChanged( usuario => {
+      if(usuario){
+        navigation.replace('Principal')
       }
-      setCarregando(false);
-    });
+      setCarregando(false)
+    })
     return () => estadoUsuario();
-  }, []);
-
-  function verificaSeTemEntradaVazia(){
-    for(const [variavel, valor] of Object.entries(dados)) {
-      if(valor == '') {
-        setDados({
-          ...dados,
-          [variavel]: null
-        })
-      }
-      return true
-    }
-    return false
-  }
+  },[])
 
   async function realizarLogin() {
-    if(verificaSeTemEntradaVazia()) return
+    if(verificaSeTemEntradaVazia(dados, setDados)) return
 
     const resultado = await logar(dados.email, dados.senha)
-    if(resultado == 'error'){
+    if(resultado == 'erro'){
         setStatusError(true)
         setMensagemError('E-mail ou senha não conferem')
         return
@@ -68,27 +55,29 @@ export default function Login({ navigation }) {
 
   return (
     <View style={estilos.container}>
-      {entradas.map((entrada) => {
-        return (
-          <EntradaTexto
-            key={entrada.id}
-            {...entrada}
-            onChangeText={valor => alteraDados
-              (entrada.name, valor, dados, setDados)}
-          />
-        );
-      })}
+      {
+        entradas.map((entrada) => {
+          return (
+            <EntradaTexto
+              key={entrada.id}
+              {...entrada}
+              value={dados[entrada.name]}
+              onChangeText={valor => alteraDados(entrada.name, valor, dados, setDados)}
+            />  
+          )
+        })
+      }
 
       <Alerta
         mensagem={mensagemError}
-        error={statusError == "firebase"}
+        error={statusError}
         setError={setStatusError}
       />
 
       <Botao onPress={() => realizarLogin()}>LOGAR</Botao>
       <Botao
         onPress={() => {
-          navigation.navigate("Cadastro");
+          navigation.navigate('Cadastro');
         }}
       >
         CADASTRAR USUÁRIO

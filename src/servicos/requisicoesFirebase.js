@@ -37,6 +37,7 @@ export async function  cadastrar(email, senha) {
 }
 
 export async function  logar(email, senha) {
+  console.log(email, senha);
   const resultado = await signInWithEmailAndPassword(auth, email, senha)
   .then((dadosDoUsuario) => {
     console.log(dadosDoUsuario)
@@ -45,7 +46,7 @@ export async function  logar(email, senha) {
   .catch((error) => {
     console.log(error)
     //return errosFirebase(error)
-    return "error";
+    return "erro";
   });
 
   return resultado;
